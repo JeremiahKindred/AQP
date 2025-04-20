@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQP | Visual Storytelling for Brands</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Optional: Add a Favicon -->
+    <!-- <link rel="icon" type="image/x-icon" href="/favicon.ico"> -->
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"> -->
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"> -->
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"> -->
+    <style>
+        /* --- CSS Variables --- */
+        :root {
+            --color-background: #121212;
+            --color-text: #f0f0f0;
+            --color-primary: #ffffff;
+            --color-secondary: #bbbbbb;
+            --color-accent: #00ffff;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --container-width: 1100px;
+            --header-height: 70px;
+            --border-radius: 8px;
+        }
+
+        /* --- Reset & Base --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: clamp(2.5rem, 6vw + 1rem, 4.5rem); letter-spacing: -0.02em; }
+        h2 { font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.01em;}
+        h3 { font-size: clamp(1.5rem, 4vw, 1.9rem); }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--color-secondary);
+            max-width: 65ch;
+            font-weight: 400;
+        }
+
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover, a:focus {
+            color: var(--color-primary);
+        }
+
+        /* --- Layout & Sections --- */
+        .container {
+            width: 90%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            padding: clamp(4rem, 10vh, 6rem) 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-divider {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--color-secondary), transparent);
+            margin: 0 auto;
+            width: 80%;
+            opacity: 0.3;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            background-color: transparent;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .logo:hover, .logo:focus {
+            color: var(--color-accent);
+            transform: scale(1.05);
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+        }
+
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            color: var(--color-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover, .main-nav a:focus, .main-nav a.active {
+            color: var(--color-primary);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height);
+            padding-bottom: 4rem;
+            opacity: 1;
+            transform: none;
+        }
+
+        #hero-video-iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            pointer-events: none;
+            border: none;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+             margin-bottom: 0.5rem;
+        }
+
+        .hero p.subheadline {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            color: var(--color-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 55ch;
+            margin-left: auto;
+            margin-right: auto;
+             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- Buttons --- */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: var(--color-background);
+            padding: 0.9rem 2.2rem;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--color-primary);
+            cursor: pointer;
+             font-size: 0.9rem;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            transform: translateY(-3px);
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-background);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+         .cta-button.secondary {
+            background-color: transparent;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+            font-weight: 500;
+         }
+         .cta-button.secondary:hover, .cta-button.secondary:focus {
+             background-color: var(--color-primary);
+             color: var(--color-background);
+             border-color: var(--color-primary);
+             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+         }
+
+
+        /* --- Our Work Section --- */
+        #work {
+            background-color: #181818;
+        }
+
+        .work-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .work-intro p {
+            max-width: 50ch;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: 2rem;
+        }
+
+        .work-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            aspect-ratio: 16 / 9;
+            background-color: #2a2a2a;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .work-item iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 0;
+        }
+
+        .work-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .work-item:hover, .work-item:focus-within {
+            transform: scale(1.03);
+        }
+
+        .work-item:hover .work-item-overlay, .work-item:focus-within .work-item-overlay {
+            opacity: 1;
+        }
+
+        .work-item h4 {
+            margin-bottom: 0;
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        /* --- Why AQP Section --- */
+        #why {
+            text-align: center;
+        }
+        #why h2 {
+             margin-bottom: 2rem;
+        }
+        #why p {
+            max-width: 70ch;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+            color: var(--color-primary);
+            line-height: 1.7;
+        }
+        p.signature {
+            margin-top: 2rem;
+            font-style: italic;
+            color: var(--color-secondary);
+            font-size: 1rem;
+        }
+
+        /* --- Client Love Section --- */
+        #clients {
+            background-color: var(--color-background);
+        }
+         #clients h2 {
+             text-align: center;
+         }
+
+        .client-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem 4rem;
+            margin-top: 3rem;
+            filter: grayscale(80%) brightness(1.2);
+            opacity: 0.8;
+            transition: filter 0.4s ease, opacity 0.4s ease;
+        }
+
+        .client-logos:hover {
+             filter: grayscale(0%) brightness(1);
+             opacity: 1;
+        }
+
+        .client-logo img {
+            max-height: 45px;
+            width: auto;
+            display: block;
+        }
+         .client-logo span:not(.sr-only) {
+             font-size: 1.4rem;
+             font-weight: 700;
+             color: var(--color-secondary);
+             letter-spacing: 0.05em;
+             text-transform: uppercase;
+             transition: color 0.3s ease;
+         }
+         .client-logo:hover span:not(.sr-only) {
+             color: var(--color-primary);
+         }
+
+        /* --- Final CTA Section --- */
+        #contact {
+            text-align: center;
+            background: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 1)), linear-gradient(45deg, #1a1a1a, #2a2a2a, #1f1f1f);
+            background-size: cover, 400% 400%;
+             animation: gradientBG 20s ease infinite reverse;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #contact h2 {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2.5rem;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            padding: 3rem 0 2rem;
+            text-align: center;
+            background-color: #0a0a0a;
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            margin: 0 0.7rem;
+            color: var(--color-secondary);
+            font-size: 1.3rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--color-accent);
+            transform: scale(1.1);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .footer-links a {
+            color: var(--color-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .footer-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .footer-contact p {
+             margin-bottom: 0.5rem;
+             font-weight: 500;
+        }
+        .main-footer p:last-of-type {
+             font-size: 0.85rem;
+             font-weight: 400;
+        }
+
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            .main-nav ul {
+                display: none;
+                position: absolute;
+                top: var(--header-height);
+                left: 0;
+                width: 100%;
+                background-color: rgba(18, 18, 18, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            }
+            .main-nav ul.active {
+                display: flex;
+            }
+            .main-nav li {
+                margin-bottom: 1rem;
+            }
+            .main-nav a {
+                font-size: 1.1rem;
+            }
+            .nav-toggle {
+                display: block;
+            }
+
+            h1 { font-size: clamp(2rem, 10vw, 3rem); }
+            h2 { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+
+             #why p {
+                 font-size: 1rem;
+             }
+
+            .client-logos {
+                 gap: 2rem 2.5rem;
+            }
+             .client-logo span:not(.sr-only) {
+                font-size: 1.1rem;
+             }
+
+            .footer-content {
+                gap: 1rem;
+            }
+            .footer-links {
+                 flex-direction: column;
+                 gap: 0.5rem;
+            }
+        }
+
+        /* --- Accessibility --- */
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header" id="mainHeader">
+        <div class="container">
+            <a href="#" class="logo">AQP</a>
+            <nav class="main-nav" id="mainNav">
+                <!-- Desktop nav list -->
+                <ul>
+                    <li><a href="#work">Our Work</a></li>
+                    <li><a href="#why">Why AQP</a></li>
+                    <li><a href="#contact" class="cta-button secondary" style="padding: 0.4rem 1rem; font-size: 0.8rem;">Start Project</a></li>
+                </ul>
+            </nav>
+             <!-- Mobile nav toggle -->
+             <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                 ☰
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- === Hero Section === -->
+        <section class="hero" id="home">
+            <iframe
+                id="hero-video-iframe"
+                src="https://www.youtube.com/embed/qaNadPWdlXo?autoplay=1&mute=1&loop=1&playlist=qaNadPWdlXo&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&rel=0"
+                title="Hero Background Video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+            </iframe>
+            <div class="container">
+                <h1>AQP helps brands find their voice through visuals.</h1>
+                <p class="subheadline">High-quality commercials and media that compete with the best in the country.</p>
+                <a href="#work" class="cta-button">See Our Work</a>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- === Our Work Section === -->
+        <section id="work">
+            <div class="container">
+                <div class="work-intro">
+                    <h2>Our Work</h2>
+                    <p>Every frame is designed to move people. Here’s how we’ve done it.</p>
+                </div>
+                <div class="work-grid">
+                    <!-- Video 1: Nike -->
+                    <div class="work-item">
+                        <iframe src="https://www.youtube.com/embed/FWSUx6B_16w?si=aaDvibFbFbGFP_2h&amp;start=1" title="Nike - Find Your Limit" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <div class="work-item-overlay"><h4>Nike - Find Your Limit</h4></div>
+                    </div>
+                    <!-- Video 2: Kalispell -->
+                    <div class="work-item">
+                        <iframe src="https://www.youtube.com/embed/836FiZCy874?si=DChrRMbwvigFs1Q-" title="Kalispell Brewing Co." frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <div class="work-item-overlay"><h4>Kalispell Brewing Co.</h4></div>
+                    </div>
+                    <!-- Video 3: New Video -->
+                    <div class="work-item">
+                       <iframe src="https://www.youtube.com/embed/Ed52NbzVsMY?si=AiX72mKhbp40IvpO" title="Project Showcase" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                       <div class="work-item-overlay"><h4>Project Showcase</h4></div>
+                   </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- === Why AQP Section === -->
+        <section id="why">
+            <div class="container">
+                <h2>Why Choose AQP?</h2>
+                 <p>
+                    At AQP, we believe in story-first filmmaking, digging deep to find the narrative that truly connects with your audience. Whether you're a nimble startup or an established national brand, our scalable production process adapts seamlessly to your specific needs and budget. We're trusted by innovators because our visuals aren't just striking – they're meticulously designed to convert and drive meaningful results for your business.
+                </p>
+                <p class="signature">
+                    - The AQP Team
+                </p>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- === Client Love Section === -->
+        <section id="clients">
+            <div class="container">
+                <h2 style="text-align: center;">Trusted By Brands Like Yours</h2>
+                <div class="client-logos">
+                    <div class="client-logo" title="MixedChicks"><span class="sr-only">MixedChicks</span><span>MixedChicks</span></div>
+                    <div class="client-logo" title="Nike"><span class="sr-only">Nike</span><span>Nike</span></div>
+                    <div class="client-logo" title="Microsoft"><span class="sr-only">Microsoft</span><span>Microsoft</span></div>
+                    <div class="client-logo" title="Old Navy"><span class="sr-only">Old Navy</span><span>Old Navy</span></div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- === Final CTA Section === -->
+        <section id="contact">
+            <div class="container">
+                <h2>Let’s Create What You’re Meant to Be Seen For.</h2>
+                <a href="mailto:Rosi.k@aquantumpicture.com?subject=AQP Project Inquiry" class="cta-button">Start Your Project</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="social-links">
+                <!-- Replace # with actual links and 📸🎬💼 with SVG icons -->
+                <a href="#" aria-label="Instagram" title="Instagram">📸</a>
+                <a href="#" aria-label="Vimeo" title="Vimeo">🎬</a>
+                <a href="#" aria-label="LinkedIn" title="LinkedIn">💼</a>
+            </div>
+            <div class="footer-contact">
+                <p><a href="mailto:Rosi.k@aquantumpicture.com">Rosi.k@aquantumpicture.com</a></p>
+            </div>
+            <div class="footer-links">
+                <a href="#work">Work</a>
+                <a href="#why">Why AQP</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            <p>&copy; <span id="currentYear"></span> AQP Productions. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Sticky Header ---
+        const header = document.getElementById('mainHeader');
+        const scrollThreshold = 50;
+
+        const handleScroll = () => {
+            if (window.scrollY > scrollThreshold) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        // --- Smooth Scrolling ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.pathname === window.location.pathname && window.location.hostname === this.hostname) {
+                     const targetId = this.getAttribute('href').substring(1);
+                     const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        const headerOffset = document.getElementById('mainHeader').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+
+                        const navList = document.querySelector('.main-nav ul');
+                        const navToggle = document.querySelector('.nav-toggle');
+                        if (navList && navList.classList.contains('active')) {
+                            navList.classList.remove('active');
+                            navToggle.setAttribute('aria-expanded', 'false');
+                            navToggle.innerHTML = '☰';
+                        }
+                    }
+                 }
+            });
+        });
+
+        // --- Mobile Navigation Toggle ---
+        const navToggle = document.querySelector('.nav-toggle');
+        const navList = document.querySelector('.main-nav ul');
+        if (navToggle && navList) {
+            navToggle.addEventListener('click', () => {
+                navList.classList.toggle('active');
+                const isExpanded = navList.classList.contains('active');
+                navToggle.setAttribute('aria-expanded', isExpanded);
+                navToggle.innerHTML = isExpanded ? '✕' : '☰';
+            });
+        }
+
+        // --- Scroll Fade-in Animation ---
+        const sections = document.querySelectorAll('section:not(.hero)');
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optional: observer.unobserve(entry.target);
+                }
+            });
+        };
+        const intersectionObserver = new IntersectionObserver(observerCallback, observerOptions);
+        sections.forEach(section => {
+            intersectionObserver.observe(section);
+        });
+
+        // --- Update Footer Year ---
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    </script>
+
+</body>
+</html>
